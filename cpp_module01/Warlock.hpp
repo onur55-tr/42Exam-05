@@ -1,29 +1,27 @@
 #pragma once
 
 #include <iostream>
-#include "ASpell.hpp"
 #include <map>
+#include "ASpell.hpp"
 
 class Warlock {
 private:
-	std::string _name;
-	std::string _title;
+	std::string	_name;
+	std::string	_title;
 
-	std::map<std::string, ASpell*> spells; //ex01
-
+	std::map<std::string, ASpell *> _as;
 public:
-	Warlock( std::string const &, std::string const &);
+	Warlock();
+	Warlock(std::string const &, std::string const &);
+	Warlock(Warlock const &);
+	Warlock &operator = (Warlock const &);
 	virtual ~Warlock();
 
-	Warlock(); //does not compile
-	Warlock( Warlock const & ); //does not compile
-	Warlock &operator = ( Warlock const & ); //does not compile
-
-	std::string const &getName( void ) const;
-	std::string const &getTitle( void ) const;
+	std::string const	&getName() const;
+	std::string const	&getTitle() const;
 
 	void	setTitle(std::string const &);
-	void	introduce( void ) const;
+	void	introduce() const;
 
 	void	learnSpell(ASpell *);
 	void	forgetSpell(std::string);

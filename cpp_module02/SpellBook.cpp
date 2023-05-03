@@ -3,39 +3,34 @@
 
 SpellBook::SpellBook() {}
 SpellBook::~SpellBook() {
-	std::vector<ASpell *>::iterator itE = _as.end();
+	std::map<std::string, ASpell *>::iterator it = _as.begin();
+	std::map<std::string, ASpell *>::iterator ite = _as.end();
 
-	for (std::vector<ASpell *>::iterator it = _as.begin(); it != itE; ++it)
-		delete *it;
+	while (it != ite)
+	{
+		delete it->second;
+		++it;
+	}
 	_as.clear();
 }
 
-void SpellBook::learnSpell(ASpell *s_ ) {
-	if ( s_ ) {
-		std::vector<ASpell *>::iterator itE = _as.end();
-
-		for (std::vector<ASpell *>::iterator it = _as.begin(); it != itE; ++it)
-			if ( (*it)->getName() == s_->getName() )
-				return ;
-		_as.push_back(s_->clone());
-	}
+void	SpellBook::learnSpell(ASpell *a) {
+	if (a)
+		_as.insert(std::pair<std::string, ASpell *>(a->getName(), a->clone()));
 }
 
-void SpellBook::forgetSpell(std::string const &spellName ) {
-	std::vector<ASpell *>::iterator itE = _as.end();
+void	SpellBook::forgetSpell(std::string const &a) {
+	std::map<std::string, ASpell *>::iterator it = _as.find(a);
 
-	for (std::vector<ASpell *>::iterator it = _as.begin(); it != itE; ++it)
-		if ( (*it)->getName() == spellName ) {
-			delete *it;
-			it = _as.erase(it);
-		}
+	if (it != _as.end())
+		delete it->second;
+	_as.erase(a);
 }
 
-ASpell	*SpellBook::generateSpell(std::string const &sn_ ) {
-	std::vector<ASpell *>::iterator itE = _as.end();
+ASpell	*SpellBook::createSpell(std::string const &a) {
+	std::map<std::string, ASpell *>::iterator it = _as.find(a);
 
-	for (std::vector<ASpell *>::iterator it = _as.begin(); it != itE; ++it)
-		if ( (*it)->getName() == sn_ )
-			return *it;
-	return (0);
+	if (it != _as.end())
+		return _as[a];
+	return NULL;
 }

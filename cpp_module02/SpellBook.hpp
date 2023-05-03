@@ -1,18 +1,19 @@
 #pragma once
 
+#include <map>
 #include "ASpell.hpp"
-#include <vector>
 
 class SpellBook {
 private:
-	std::vector<ASpell *> _as;
-	SpellBook(SpellBook const &);
-	SpellBook &operator = (SpellBook const &);
+	std::map<std::string, ASpell *> _as;
 public:
 	SpellBook();
 	virtual ~SpellBook();
 
+	SpellBook(SpellBook const &);
+	SpellBook &operator = (SpellBook const &);
+
 	void	learnSpell(ASpell *);
 	void	forgetSpell(std::string const &);
-	ASpell	*generateSpell(std::string const &);
+	ASpell	*createSpell(std::string const &);
 };

@@ -1,40 +1,36 @@
 #include "TargetGenerator.hpp"
 
+
 TargetGenerator::TargetGenerator() {}
 TargetGenerator::~TargetGenerator() {
-	std::vector<ATarget *>::iterator itE = _type.end();
+	std::map<std::string, ATarget *>::iterator it = _as.begin();
+	std::map<std::string, ATarget *>::iterator ite = _as.end();
 
-	for (std::vector<ATarget *>::iterator it = _type.begin(); it != itE; ++it)
-		delete *it;
-	_type.clear();
-}
-
-void	TargetGenerator::learnTargetType(ATarget *t_ ) {
-	if ( t_ ) {
-		std::vector<ATarget *>::iterator itE = _type.end();
-
-		for (std::vector<ATarget *>::iterator it = _type.begin(); it != itE; ++it)
-			if ( (*it)->getType() == t_->getType() )
-				return ;
-		_type.push_back(t_->clone());
+	while (it != ite)
+	{
+		delete it->second;
+		++it;
 	}
+	_as.clear();
 }
 
-void	TargetGenerator::forgetTargetType(std::string const &t_ ) {
-	std::vector<ATarget *>::iterator itE = _type.end();
-
-	for (std::vector<ATarget *>::iterator it = _type.begin(); it != itE; ++it)
-		if ( (*it)->getType() == t_ ) {
-			delete *it;
-			it = _type.erase(it);
-		}
+void	TargetGenerator::learnTargetType(ATarget *a) {
+	if (a)
+		_as.insert(std::pair<std::string, ATarget *>(a->getType(), a->clone()));
 }
 
-ATarget	*TargetGenerator::createTarget(std::string const &t_ ) {
-	std::vector<ATarget *>::iterator itE = _type.end();
+void	TargetGenerator::forgetTargetType(std::string const &a) {
+	std::map<std::string, ATarget *>::iterator it = _as.find(a);
 
-	for (std::vector<ATarget *>::iterator it = _type.begin(); it != itE; ++it)
-		if ( (*it)->getType() == t_ )
-			return *it;
-	return (0);
+	if (it != _as.end())
+		delete it->second;
+	_as.erase(a);
+}
+
+ATarget	*TargetGenerator::createTargetType(std::string const &a) {
+	std::map<std::string, ATarget *>::iterator it = _as.find(a);
+
+	if (it != _as.end())
+		return _as[a];
+	return NULL;
 }
