@@ -27,7 +27,7 @@ void	TargetGenerator::forgetTargetType(std::string const &a) {
 	_as.erase(a);
 }
 
-ATarget	*TargetGenerator::createTargetType(std::string const &a) {
+ATarget	*TargetGenerator::createTarget(std::string const &a) {
 	std::map<std::string, ATarget *>::iterator it = _as.find(a);
 
 	if (it != _as.end())
