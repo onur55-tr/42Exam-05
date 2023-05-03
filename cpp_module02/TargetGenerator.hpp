@@ -15,5 +15,5 @@ public:
 
 	void	learnTargetType(ATarget *);
 	void	forgetTargetType(std::string const &);
-	ATarget	*createTargetType(std::string const &);
+	ATarget	*createTarget(std::string const &);
 };
