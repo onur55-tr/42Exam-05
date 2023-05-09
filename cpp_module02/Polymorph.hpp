@@ -2,10 +2,11 @@
 
 #include "ASpell.hpp"
 
-class Polymorph:public ASpell {
-public:
-	Polymorph();
-	~Polymorph();
+class Polymorph : public ASpell {
 
-	ASpell *clone() const;
+public:
+    Polymorph();
+    ~Polymorph();
+
+    ASpell *clone() const;
 };

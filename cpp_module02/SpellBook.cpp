@@ -1,36 +1,37 @@
 #include "SpellBook.hpp"
 
-
 SpellBook::SpellBook() {}
-SpellBook::~SpellBook() {
-	std::map<std::string, ASpell *>::iterator it = _as.begin();
-	std::map<std::string, ASpell *>::iterator ite = _as.end();
 
-	while (it != ite)
-	{
+SpellBook::~SpellBook()
+{
+    std::map<std::string, ASpell *>::iterator it_begin = this->arr_spell.begin();
+    std::map<std::string, ASpell *>::iterator it_end = this->arr_spell.end();
+    while (it_begin != it_end)
+    {
+        delete it_begin->second;
+        ++it_begin;
+    }
+    this->arr_spell.clear();
+}
+
+void SpellBook::learnSpell(ASpell* spell_ptr)
+{
+    if (spell_ptr)
+        arr_spell.insert(std::pair<std::string, ASpell *>(spell_ptr->getName(), spell_ptr->clone()));
+}
+
+void SpellBook::forgetSpell(std::string const &spell_name)
+{
+    std::map<std::string, ASpell *>::iterator it = arr_spell.find(spell_name);
+	if (it != arr_spell.end())
 		delete it->second;
-		++it;
-	}
-	_as.clear();
+    arr_spell.erase(spell_name);
 }
 
-void	SpellBook::learnSpell(ASpell *a) {
-	if (a)
-		_as.insert(std::pair<std::string, ASpell *>(a->getName(), a->clone()));
-}
-
-void	SpellBook::forgetSpell(std::string const &a) {
-	std::map<std::string, ASpell *>::iterator it = _as.find(a);
-
-	if (it != _as.end())
-		delete it->second;
-	_as.erase(a);
-}
-
-ASpell	*SpellBook::createSpell(std::string const &a) {
-	std::map<std::string, ASpell *>::iterator it = _as.find(a);
-
-	if (it != _as.end())
-		return _as[a];
-	return NULL;
+ASpell* SpellBook::createSpell(std::string const &spell_name)
+{
+    std::map<std::string, ASpell *>::iterator it = arr_spell.find(spell_name);
+    if (it != arr_spell.end())
+        return arr_spell[spell_name];
+    return NULL;
 }

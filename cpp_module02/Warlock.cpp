@@ -1,40 +1,37 @@
 #include "Warlock.hpp"
 
-Warlock::Warlock(std::string const &n_, std::string const &t_):
-	_name(n_), _title(t_) {
-	std::cout << _name << ": This looks like another boring day." << std::endl;
+Warlock::Warlock(std::string const &name, std::string const &title)
+{
+    this->name = name;
+    this->title = title;
+    std::cout << this->name << ": This looks like another boring day.\n";
 }
 
-Warlock::~Warlock() {
-	std::cout << _name << ": My job here is done!" << std::endl;
+Warlock::~Warlock()
+{
+    std::cout << this->name << ": My job here is done!\n";
 }
 
-std::string const &Warlock::getName() const { return _name; }
-std::string const &Warlock::getTitle() const { return _title; }
+std::string const &Warlock::getName() const { return (this->name);}
+std::string const &Warlock::getTitle() const { return (this->title);}
 
-void	Warlock::setTitle(std::string const &t_) { _title = t_; }
+void Warlock::setTitle(std::string const &title) { this->title = title;}
 
-void	Warlock::introduce() const {
-	std::cout << _name << ": I am " << _name << ", " << _title << "!" << std::endl;
+void Warlock::introduce() const { std::cout << this->name << ": I am " << this->name << ", " << this->title << "!\n";}
+
+void Warlock::learnSpell(ASpell *aspell_ptr)
+{
+    book.learnSpell(aspell_ptr);
 }
 
-void Warlock::learnSpell(ASpell *s_ ) {
-	if (s_)
-		_as.insert(std::pair<std::string, ASpell *>(s_->getName(), s_->clone()));
+void Warlock::forgetSpell(std::string name)
+{
+    book.forgetSpell(name);
 }
 
-void Warlock::forgetSpell(std::string spellName ) {
-	std::map<std::string, ASpell *>::iterator it = _as.find(spellName);
-
-	if (it != _as.end())
-		delete it->second;
-	_as.erase(spellName);
-}
-
-void Warlock::launchSpell(std::string spellName, ATarget const &t_ ) {
-	ASpell* spell = _as[spellName];
-
-	if (spell)
-		spell->launch(t_);
-
+void Warlock::launchSpell(std::string name, ATarget const &atarget_ref)
+{
+    ASpell *temp = book.createSpell(name);
+    if (temp)
+        temp->launch(atarget_ref);
 }

@@ -2,10 +2,11 @@
 
 #include "ATarget.hpp"
 
-class Dummy:public ATarget {
-public:
-	Dummy();
-	~Dummy();
+class Dummy : public ATarget {
 
-	ATarget *clone() const;
+public:
+    Dummy();
+    ~Dummy();
+
+     ATarget *clone() const;
 };
